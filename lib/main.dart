@@ -27,7 +27,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TimeOfDay time = TimeOfDay.now();
-
+  DateTime date = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,24 +36,57 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              '${time.hour}:${time.minute}',
-              style: Theme.of(context).textTheme.headline2,
-            ),
-            Text(
-              time.format(context),
-              style: Theme.of(context).textTheme.headline2,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                TimeOfDay? selectedTime =
-                    await showTimePicker(context: context, initialTime: time);
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '${time.hour}:${time.minute}',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                Text(
+                  time.format(context),
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    TimeOfDay? selectedTime = await showTimePicker(
+                        context: context, initialTime: time);
 
-                setState(() {
-                  time = selectedTime!;
-                });
-              },
-              child: const Text('Time Picker'),
+                    setState(() {
+                      time = selectedTime!;
+                    });
+                  },
+                  child: const Text('Time Picker'),
+                ),
+              ],
+            ),
+            const SizedBox(width: 40),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '${date.day}/${date.month}/${date.year}',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                // Text(
+                //   date.toString(),
+                //   style: Theme.of(context).textTheme.headline5,
+                // ),
+                ElevatedButton(
+                  onPressed: () async {
+                    DateTime? selectedDate = await showDatePicker(
+                      context: context,
+                      initialDate: date,
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime(2200),
+                    );
+                    setState(() {
+                      date = selectedDate!;
+                    });
+                  },
+                  child: const Text('Date Picker'),
+                ),
+              ],
             ),
           ],
         ),
